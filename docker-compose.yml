@@ -1,0 +1,18 @@
+version: '2'
+services: 
+    app:
+         platform: linux/x86_64
+         build: .
+         command: bundle exec rails s -p 3000 -b '0.0.0.0' -e development
+         volumes: 
+             - ".:/project"
+         ports: 
+             - "3001:3000"
+         environment: 
+             DB_USER: root
+             DB_NAME: tcm_staging
+             DB_PASSWORD: DLPtyw86TWT*@Zc^
+             DB_HOST: db
+             API_KEY: ABCDE
+             API_SECRET: DZ!2o22security+
+             ALLOWED_IP: 172.19.0.1

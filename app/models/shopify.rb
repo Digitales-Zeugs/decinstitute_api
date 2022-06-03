@@ -1,0 +1,2 @@
+class Shopify < ApplicationRecord
+end
