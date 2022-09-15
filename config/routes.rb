@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get 'shopify/index'
       post 'shopify/get_order_info', to: 'shopify#get_order_info'
       get 'shopify/generate_rd_string'
+      get 'shopify/get_mettl_certifications'
     end
   end
   

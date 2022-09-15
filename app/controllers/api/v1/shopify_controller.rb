@@ -8,6 +8,34 @@ class Api::V1::ShopifyController < ApplicationController
       render json: @shopify
     end
 
+    def get_mettl_certifications
+
+      mettlUrl = "https://certification.mettl.com/api/v2/tests"
+      ak = "72dd0e43-5372-4c8c-a39b-6ea72a68fd29"
+      mettlSubdomain = "dec-institute"
+      timestamp = (Time.now.to_i).to_s 
+      private_key = "d3ab81bb-a73c-4217-8b68-81e678ac3c02"
+
+      data =  "GET" + mettlUrl + "\n" + ak + "\n" + mettlSubdomain  + "\n" +  timestamp;
+    
+      signatureCode = Base64.strict_encode64(OpenSSL::HMAC.digest('sha256', private_key, data))
+      asgn = CGI.escape(signatureCode)
+
+      requestUrl = "https://certification.mettl.com/api/v2/tests?ak=" + ak + "&subdomain=" + mettlSubdomain + "&ts=" + timestamp + "&asgn=" + asgn
+
+      url = URI(requestUrl)
+
+
+      https = Net::HTTP.new(url.host, url.port)
+      https.use_ssl = true
+
+      request = Net::HTTP::Get.new(url)
+
+      response = https.request(request)
+
+      render json: response.read_body
+    end
+
     def get_order_info
         puts 'Getting Order Info:'
         data = request.body.read
@@ -92,9 +120,9 @@ class Api::V1::ShopifyController < ApplicationController
           puts emailApplicant
           puts '******'
           if producto.include? "ANALYST"
-            generateCertificate(emailApplicant, "23854")
+            generateCertificate(emailApplicant, "28823")
           elsif producto.include? "BLOCKCHAIN"
-            generateCertificate(emailApplicant, "23853")
+            generateCertificate(emailApplicant, "28824")
           elsif producto.include? "PRACTICE TEST"
             generateCertificate(emailApplicant, "23134")
           end
