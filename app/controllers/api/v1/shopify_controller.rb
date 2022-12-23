@@ -151,24 +151,7 @@ class Api::V1::ShopifyController < ApplicationController
     end
 
     def generate_rd_string(email, nombre, apellido, dateOfBirth, country, gender, industry, jobtitle, levelOfEducation)
-        
-    #   rd = {"registrationDetails" => [
-    #     {
-    #       "Email Address" => email, 
-    #       "First Name" => nombre,
-    #       "Last Name" => apellido,
-    #       "Date of birth" => dateOfBirth,
-    #       "Country" => country[1],
-    #       "Gender" => gender[1],
-    #       "Industry" => industry[1],
-    #       "Job Titel" => jobtitle[1],
-    #       "Level of Education" => levelOfEducation[1],
-    #       "context_data" => "CONTEXT_DATA"
-    #     }
-    #   ],
-    #   "sendEmail" => true,
-    #   "isAdminVerified" => false
-    # }
+
 
       step1 = '{"registrationDetails" :[{"Email Address":"'
       step2 = '", "First Name" : "'
