@@ -159,7 +159,7 @@ class Api::V1::InvoicesController < ApplicationController
 
     request.body =
       '{ "salutation_type": "' + $userGender[1].downcase + '", "firstname": "' +
-        $userFirstName.downcase + '", "lastname": "' + $userLastName.downcase +
+        $userFirstName + '", "lastname": "' + $userLastName +
         '", "email": "' + $userEmail.downcase + '" }'
 
     response = https.request(request)
@@ -196,8 +196,8 @@ class Api::V1::InvoicesController < ApplicationController
       '{"mail": "' + $userEmail.downcase + '", "city": "' + $userCity +
         '", "postcode": "' + $userCity + '", "address": "' + $userAddress +
         '", "user_id": "' + user_id + '", "owner_id": "' + user_id +
-        '" ,"name_1": "' + $userLastName.downcase + '", "name_2": "' +
-        $userFirstName.downcase + '", "contact_type_id": ' + '"2"' + " }"
+        '" ,"name_1": "' + $userLastName + '", "name_2": "' +
+        $userFirstName + '", "contact_type_id": ' + '"2"' + " }"
 
     response = https.request(request)
     ##puts response.read_body
