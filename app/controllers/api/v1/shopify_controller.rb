@@ -119,19 +119,23 @@ class Api::V1::ShopifyController < ApplicationController
           puts 'Applicant Created with email:'
           puts emailApplicant
           puts '******'
-          if producto.include? "ANALYST"
-            generateCertificate(emailApplicant, "29213")
-            # generateCertificate(emailApplicant, "28823")
-            # generateCertificate(emailApplicant, "848356")
-          elsif producto.include? "BLOCKCHAIN"
-            generateCertificate(emailApplicant, "29212")
-            # generateCertificate(emailApplicant, "28824")
-          elsif producto.include? "PRACTICE TEST"
-            generateCertificate(emailApplicant, "23134")
-          # elsif producto.include? "STUDY BOOKLET CBX"
-          #   generateCertificate(emailApplicant, "29212")
-          # elsif producto.include? "STYDY BOOKLET CDAA"
+          # if producto.include? "ANALYST"
           #   generateCertificate(emailApplicant, "29213")
+          # elsif producto.include? "BLOCKCHAIN"
+          #   generateCertificate(emailApplicant, "29212")
+          # elsif producto.include? "PRACTICE TEST"
+          #   generateCertificate(emailApplicant, "23134")
+          # end
+          if producto.include? "CHARTERED BLOCKCHAIN ANALYST"
+            generateCertificate(emailApplicant, "29212")
+          elsif producto.include? "CHARTERED DIGITAL ASSET ANALYST"
+            generateCertificate(emailApplicant, "29213")
+          elsif producto.include? "PRACTICE TEST"
+            if producto.include? "CBA"
+              generateCertificate(emailApplicant, "29578")
+            elsif producto.include? "CDAA"
+              generateCertificate(emailApplicant, "29579")
+            end
           end
         elsif applicantStatus == "ERROR"
           puts '******STEP 4******'

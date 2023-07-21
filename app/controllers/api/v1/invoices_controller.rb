@@ -51,15 +51,18 @@ class Api::V1::InvoicesController < ApplicationController
 
     $productQty = json_data["line_items"][0]["quantity"].to_s
     cantidad = line_items[0]["quantity"].to_s
-    dataNotes = json_data["customer"]["note"]
-    if dataNotes
-      userNotes = dataNotes.split("\n", 5)
+    # dataNotes = json_data["customer"]["note"]
+
+    if json_data["customer"]["note"]
+      userNotes = json_data["customer"]["note"].split("\n", 5)
       $userGender = userNotes[1].split(": ", 2)
     else
       userNotes = ""
       $userGender = ""
     end
-    #End
+
+    # userNotes = ""
+    # $userGender = ""
 
     puts $userGender
 
@@ -94,7 +97,7 @@ class Api::V1::InvoicesController < ApplicationController
       end
     end
 
-    render json: "Hola"
+    render json: "Hola", status: :ok
   end
 
   def getListOfContacts
@@ -158,7 +161,7 @@ class Api::V1::InvoicesController < ApplicationController
     request["Content-Type"] = "application/json"
 
     request.body =
-      '{ "salutation_type": "' + $userGender[1].downcase + '", "firstname": "' +
+      '{ "salutation_type": "Mr.", "firstname": "' +
         $userFirstName + '", "lastname": "' + $userLastName +
         '", "email": "' + $userEmail.downcase + '" }'
 
