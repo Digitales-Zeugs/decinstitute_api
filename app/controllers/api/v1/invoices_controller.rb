@@ -29,7 +29,23 @@ class Api::V1::InvoicesController < ApplicationController
     $userAddress = json_data["billing_address"]["address1"]
     $userZipCode = json_data["billing_address"]["zip"]
     $userCity = json_data["billing_address"]["city"]
-    userCountry = json_data["billing_address"]["country"]
+    $userCountry = json_data["billing_address"]["country"]
+    $userCountryCode = json_data["billing_address"]["country_code"]
+
+    countryCodes = {
+      'CH' => 1, 'DE' => 2, 'AT' => 3, 'BR' => 4, 'CA' => 5,
+      'CN' => 6, 'CZ' => 7, 'FR' => 8, 'GB' => 9, 'IT' => 10,
+      'LI' => 11, 'HK' => 12, 'PT' => 13, 'EG' => 14, 'US' => 15,
+      'ES' => 16, 'AU' => 17, 'AR' => 18, 'MV' => 19, 'BG' => 20,
+      'RO' => 21, 'LU' => 22, 'TR' => 23, 'IL' => 24, 'NL' => 25,
+      'AE' => 26, 'BE' => 27, 'SG' => 28, 'ME' => 29, 'QA' => 30,
+      'DK' => 31, 'SE' => 32, 'MY' => 33, 'IE' => 34, 'NO' => 35,
+      'FI' => 36, 'HU' => 37, 'MX' => 38, 'RS' => 39
+    }
+
+    $userCountryId = countryCodes[$userCountryCode]
+
+    puts 'COUNTRY ID: ', $userCountryId
 
     products = []
 
@@ -233,6 +249,7 @@ class Api::V1::InvoicesController < ApplicationController
 
   def createContact()
     #Code for user contacts
+
     url = URI("https://api.bexio.com/2.0/contact")
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
@@ -244,11 +261,24 @@ class Api::V1::InvoicesController < ApplicationController
     ] = "Bearer eyJraWQiOiI2ZGM2YmJlOC1iMjZjLTExZTgtOGUwZC0wMjQyYWMxMTAwMDIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhcm5vLnBlcm50aGFsZXJAZGVjaW5zdGl0dXRlLm9yZyIsImxvZ2luX2lkIjoiZmM2OTVlZDktMTZhZS00MGJkLWE0M2QtOGRiYzMzYmRiOWMzIiwiY29tcGFueV9pZCI6ImtlaXV6MHkxa2JkOSIsInVzZXJfaWQiOjI2ODUwNiwiYXpwIjoiZXZlcmxhc3QtdG9rZW4tb2ZmaWNlLWNsaWVudCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgYWxsIHRlY2huaWNhbCIsImlzcyI6Imh0dHBzOlwvXC9pZHAuYmV4aW8uY29tIiwiZXhwIjozMTkyMjcxNTIyLCJpYXQiOjE2MTU0NzE1MjIsImNvbXBhbnlfdXNlcl9pZCI6MSwianRpIjoiOTA3MzdmZTEtNjhlMy00Y2Y5LWJkODgtZDgyZWYzMjE4M2JmIn0.EX_WUzl0ysbwP869XaxOO3G7JWuEM2MB0rXP4XDU2cFL4-ne3pyL5V-GGn6C8GbiGEru4C4V8Ov8jSzCV68poxDhCLLlOvDqB3umqfsWlympuSHJ42z2G0MG0WFxUvz-9oQ9FZcyHQVkhgDmyWhyZ7oeXgZYlf9rxtWjFiP_cphTEmCyHPqXJ6jajTuJaKe915IZjMli6potKp-A1xe9mUagcAdi5D5UUq-NgFT95dDGeNu6ty_nymEHPkrQ4LayR5mKz3t0AMQKKAQyRg8ZzgUX4sLQbOCAAtTLi4exKwjOYU7wLtug1J9crLDc1wOCwZ3yayQeAzeEdUc5KC4Lq9bsC4CbhQQX_be__8-MbF9X9-FpS20nmbUTn5wQE7_TsXJJfy-iGfgaWpAPVYE3z7bt_RGpwpWgjBG-v3vCvr8bfNT0Y5bnehdQpNRDQ5F_ZMzNOh6cS8t_Usgm9oynbjKHdVrGIoZ70JYnZmHL0AiqF1Jz2vB7Hrarr-QWTpPhKC7_zE9QSbm4lTMyk8nKhkBmpID0QAkWRJYdqR0UGLD4FkUMNIPVHEuGuqFM83_2PG_YtkJHkZSNjCQIrAEEqGB86R_QxxFAc9xGuUfZn0cC7Rh1Vulk3LLroKkzo0FNCLF7K9q3QwhS7DKB-ihG0YZr4RmRirdpHqHVONwBLP4"
     request["Content-Type"] = "application/json"
 
-    request.body =
-      '{"mail": "' + $userEmail.downcase + '", "city": "' + $userCity +
-        '", "postcode": "' + $userCity + '", "address": "' + $userZipCode + " " + $userAddress +
-        '", "user_id": "1", "owner_id": "1" ,"name_1": "' + $userLastName + '", "name_2": "' +
-        $userFirstName + '", "contact_type_id": ' + '"2"' + " }"
+    # request.body =
+    #   '{"mail": "' + $userEmail.downcase + '", "city": "' + $userCity +
+    #     '", "postcode": "' + $userZipCode + '", "address": "' + $userAddress + '"country": 1' +
+    #     '", "user_id": "1", "owner_id": "1" ,"name_1": "' + $userLastName + '", "name_2": "' +
+    #     $userFirstName + '", "contact_type_id": ' + '"2"' + " }"
+
+    request.body = {
+      "name_1": $userLastName,
+      "name_2": $userFirstName,
+      "address": $userAddress,
+      "postcode": $userZipCode,
+      "city": $userCity,
+      "country_id": 1,
+      "mail": $userEmail.downcase,
+      "contact_type_id": 2,
+      "user_id": 1,
+      "owner_id": 1
+  }.to_json
 
     response = https.request(request)
     
